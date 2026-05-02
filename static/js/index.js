@@ -204,7 +204,7 @@ window.addEventListener('keydown', (e) => {
 document.getElementById('btnSave').addEventListener('click', saveAnnotations);
 document.getElementById('btnBuild').addEventListener('click', () => runAction('/build_dataset'));
 document.getElementById('btnTrain').addEventListener('click', () => runAction('/train'));
-document.getElementById('btnPredict').addEventListener('click', predictFromVal);
+document.getElementById('btnPredict').addEventListener('click', () => runAction('/predict'));
 document.getElementById('btnClear').addEventListener('click', () => {
     if (confirm("Limpar tudo?")) {
         canvas.getObjects('rect').forEach(obj => canvas.remove(obj));
