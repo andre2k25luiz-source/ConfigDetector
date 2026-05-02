@@ -1,8 +1,7 @@
-import math
 from ultralytics import YOLO
 import shutil
 import os
-import random
+
 
 def treinar_modelo(data_path):
     model = YOLO("yolov8n.pt")

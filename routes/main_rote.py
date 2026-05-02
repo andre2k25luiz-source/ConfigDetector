@@ -1,4 +1,4 @@
-from flask import request, render_template, Flask, Blueprint
+from flask import render_template, Blueprint
 
 main_route = Blueprint("main", __name__)
 

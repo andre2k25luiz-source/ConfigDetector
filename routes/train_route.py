@@ -1,7 +1,4 @@
 from flask import Flask, request, jsonify, Blueprint
-import os
-import shutil
-# Certifique-se de importar suas funções dos arquivos corretos
 from utils.generator_utils import generate_dataset 
 from services.train_service import treinar_modelo
 

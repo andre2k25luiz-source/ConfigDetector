@@ -1,5 +1,4 @@
 from flask import Blueprint, request, jsonify
-import os
 
 from services.predict_service import predict
 
