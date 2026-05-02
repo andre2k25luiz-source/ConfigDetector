@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.1/fabric.min.js"></script>
+    <style>
+        .controls { margin-bottom: 10px; display: flex; gap: 10px; align-items: center; }
+        canvas { border: 1px solid #ccc; }
+        body { font-family: sans-serif; padding: 20px; background: #f0f0f0; }
+    </style>
+    <link rel="stylesheet" href="../static/css/index.css">
+    <title>YOLO Annotator</title>
+</head>
+<header>
+    <h1>ConfigDetector</h1>
+    <h2>Anotador YOLO - Editor Visual</h2>
+    <p>arquiteturas inteligentes para detector configurável de objetos.</p>
+</header>
+<body>
+    <nav>
+        <div class="controls">
+            <input type="file" id="imageInput" accept="image/*">
+            <select id="mode">
+                <option value="draw">✏️ Desenhar</option>
+                <option value="select">🖱️ Mover/Editar</option>
+            </select>
+            <label>ID:</label>
+            <input type="number" id="classId" value="0" min="0" style="width: 50px;">
+        
+            <!-- IDs atualizados aqui -->
+            <button id="btnSave">💾 Salvar Anotações</button>
+            <button id="btnTrain" onclick="runAction('/train')">Treinar</button>
+            <button id="btnPredict">🔍 Predict (IA)</button>
+            <button id="btnClear" style="background: #ff4444; color: white;">🗑️ Limpar Tudo</button>
+        </div>
+    </nav>
+
+    <main>
+        <canvas id="canvas" width="640" height="640"></canvas>
+    </main>
+    <aside>
+        <div style="margin-top: 10px; background: #222; color: #0f0; padding: 10px; font-family: monospace; border-radius: 5px; max-height: 150px; overflow-y: auto;">
+            <strong>Lista YOLO (Label File):</strong>
+            <div id="yoloList" style="font-size: 12px; margin-top: 5px;"></div>
+        </div>
+    </aside>
+    <footer>
+        <p>
+            Copyright 2026
+            <i class="fa-regular fa-copyright"></i>
+            Feito por <a href="https://github.com/andre2k25luiz-source" target="_blank">André Luiz</a>
+        </p>
+    </footer>
+    <script src="../static/js/index.js"></script>
+</body>
+</html>

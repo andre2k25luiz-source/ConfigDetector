@@ -1,0 +1,146 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --bg-dark: #0f1117;
+    --card-bg: #1d1f27;
+    --accent: #6366f1; /* Indigo IA */
+    --text-main: #f8fafc;
+    --text-muted: #94a3b8;
+    --border: #334155;
+    --danger: #ef4444;
+}
+
+body {
+    display: flex;
+    flex-wrap: wrap;
+    background-color: var(--bg-dark);
+    color: var(--text-main);
+    font-family: 'Inter', system-ui, sans-serif;
+    padding: 8px;
+    min-height: 100vh;
+}
+
+header, nav, main, aside, footer {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    margin: 4px;
+    padding: 15px;
+    display: flex;
+}
+
+header {
+    flex: 1 1 100vw;
+    height: 100px;
+    flex-direction: column;
+    justify-content: center;
+}
+
+header h1 { font-size: 1.4rem; color: var(--accent); }
+header p { color: var(--text-muted); font-size: 0.85rem; }
+
+/* NAV - Barra Horizontal */
+nav {
+    flex: 1 1 100vw; /* Ocupa a largura total em cima */
+    height: auto;
+    align-items: center;
+}
+
+.controls {
+    display: flex;
+    flex-direction: row; /* Alinhamento horizontal */
+    flex-wrap: wrap;    /* Ajusta se a tela encolher */
+    gap: 12px;
+    align-items: center;
+    width: 100%;
+}
+
+/* Inputs e Botões Estilizados */
+button, select, input {
+    padding: 8px 14px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    background: #2d2f39;
+    color: white;
+    cursor: pointer;
+    font-size: 13px;
+    transition: all 0.2s ease;
+}
+
+button:hover { 
+    background: var(--accent); 
+    border-color: var(--accent); 
+    transform: translateY(-1px);
+}
+
+#btnPredict { background: var(--accent); font-weight: bold; }
+#btnClear { background: transparent; border: 1px solid var(--danger); color: var(--danger); }
+#btnClear:hover { background: var(--danger); color: white; }
+
+/* Main, Aside e Footer */
+main { 
+    flex: 20 1 500px; 
+    height: calc(100vh - 250px); /* Ajuste conforme necessário */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #000;
+    overflow: hidden; /* Evita a barra de rolagem no bloco */
+    padding: 10px;
+}
+
+.canvas-container {
+    max-width: 100% !important;
+    max-height: 100% !important;
+    box-shadow: 0 0 20px rgba(0,0,0,0.5);
+}
+
+#classId {
+    width: 70px !important; /* Aumentado para caber o número e as setas */
+    background: #334155;    /* Um tom levemente diferente para destacar */
+    color: #00ff00;         /* Verde neon para combinar com o estilo IA */
+    font-weight: bold;
+    text-align: center;
+    border: 1px solid var(--accent);
+}
+
+/* Ajuste do label do ID para não sumir */
+label[for="classId"], .controls label {
+    color: var(--text-main);
+    font-weight: bold;
+    font-size: 14px;
+    margin-right: -5px; /* Aproxima o texto do input */
+}
+
+canvas {
+    max-width: 100%;
+    max-height: 100%;
+}
+
+aside {  
+    flex: 1 1 250px;
+    flex-direction: column;
+}
+
+footer {
+    flex: 1 1 100vw;
+    height: 80px;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-muted);
+}
+
+/* Responsividade Original Mantida */
+@media only screen and (max-width: 923px) {
+    main { height: auto; min-height: 500px; }
+    aside { flex: 1 1 100vw; height: 150px; }
+}
+
+@media only screen and (max-width: 717px) {
+    /* Mantém os botões em linha ou quebra suavemente */
+    .controls { justify-content: center; }
+}
