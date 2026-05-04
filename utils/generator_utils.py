@@ -4,23 +4,8 @@ import os
 import random
 
 def remove_background(image):
-    # 1. Converte para escala de cinza
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-    
-    # 2. Aplica um leve desfoque para reduzir ruído nas bordas
-    blurred = cv2.GaussianBlur(gray, (5, 5), 0)
-    
-    # 3. Threshold de Otsu: ele calcula o melhor limiar sozinho 
-    # (melhor que o fixo 240 que você estava usando)
-    _, mask = cv2.threshold(blurred, 0, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)
-    
-    # 4. Operação Morfológica (Closing): Fecha pequenos buracos dentro do objeto
-    kernel = np.ones((5, 5), np.uint8)
-    mask = cv2.morphologyEx(mask, cv2.MORPH_CLOSE, kernel)
-    
-    # 5. Opcional: Dilatar levemente para garantir que não cortamos as bordas do objeto
-    mask = cv2.dilate(mask, kernel, iterations=1)
-    
+    _, mask = cv2.threshold(gray, 240, 255, cv2.THRESH_BINARY_INV)
     return mask
 
 def generate_dataset(input_path, backgrounds_dir, output_dir, num_images=200, train_ratio=0.8):
