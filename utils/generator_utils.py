@@ -8,9 +8,11 @@ def remove_background(image):
     _, mask = cv2.threshold(gray, 240, 255, cv2.THRESH_BINARY_INV)
     return mask
 
-def generate_dataset(input_path, backgrounds_dir, output_dir, num_images=200):
-    os.makedirs(f"{output_dir}/images", exist_ok=True)
-    os.makedirs(f"{output_dir}/labels", exist_ok=True)
+def generate_dataset(input_path, backgrounds_dir, output_dir, num_images=200, train_ratio=0.8):
+    # cria estrutura YOLO
+    for split in ["train", "val"]:
+        os.makedirs(f"{output_dir}/images/{split}", exist_ok=True)
+        os.makedirs(f"{output_dir}/labels/{split}", exist_ok=True)
 
     obj = cv2.imread(input_path)
     mask = remove_background(obj)
@@ -22,24 +24,22 @@ def generate_dataset(input_path, backgrounds_dir, output_dir, num_images=200):
     obj_crop = obj[y_min:y_max, x_min:x_max]
     mask_crop = mask[y_min:y_max, x_min:x_max]
     
-    # Proporção original do objeto para não distorcer
     obj_aspect = obj_crop.shape[0] / obj_crop.shape[1]
 
-    bg_files = os.listdir(backgrounds_dir)
+    bg_files = [f for f in os.listdir(backgrounds_dir) if f.endswith((".jpg", ".png"))]
 
     for i in range(num_images):
+        # decide se vai pra treino ou validação
+        split = "train" if random.random() < train_ratio else "val"
+
         bg = cv2.imread(os.path.join(backgrounds_dir, random.choice(bg_files)))
-        
-        # --- ALTERAÇÃO: Redimensiona o background para um tamanho padrão (ex: 640x640) ---
         bg = cv2.resize(bg, (640, 640))
         h_bg, w_bg, _ = bg.shape
 
-        # --- ALTERAÇÃO: Scale agora é relativo ao tamanho do background ---
-        scale = random.uniform(0.2, 0.5) # Objeto ocupará de 20% a 50% da largura do BG
+        scale = random.uniform(0.2, 0.5)
         new_w = int(w_bg * scale)
         new_h = int(new_w * obj_aspect)
 
-        # Garante que o objeto não exceda a altura do background
         if new_h > h_bg:
             new_h = int(h_bg * scale)
             new_w = int(new_h / obj_aspect)
@@ -58,12 +58,16 @@ def generate_dataset(input_path, backgrounds_dir, output_dir, num_images=200):
         bg[y_offset:y_offset+new_h, x_offset:x_offset+new_w] = roi
 
         img_name = f"{i:04d}.jpg"
-        cv2.imwrite(f"{output_dir}/images/{img_name}", bg)
 
+        # salva imagem no split correto
+        cv2.imwrite(f"{output_dir}/images/{split}/{img_name}", bg)
+
+        # bbox YOLO
         x_center = (x_offset + new_w / 2) / w_bg
         y_center = (y_offset + new_h / 2) / h_bg
         w = new_w / w_bg
         h = new_h / h_bg
 
-        with open(f"{output_dir}/labels/{img_name.replace('.jpg','.txt')}", "w") as f:
+        # salva label no split correto
+        with open(f"{output_dir}/labels/{split}/{img_name.replace('.jpg','.txt')}", "w") as f:
             f.write(f"0 {x_center} {y_center} {w} {h}")

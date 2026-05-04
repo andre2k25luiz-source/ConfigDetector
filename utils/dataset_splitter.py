@@ -38,4 +38,10 @@ def split_dataset(dataset_dir, train_ratio=0.8):
     print(f"Train: {len(train_files)} | Val: {len(val_files)}")
 
 
-    
+""""
+Não use shutil.move se quiser manter backup → use copy
+Sempre embaralhe (random.shuffle) antes de dividir
+Para datasets pequenos (tipo 20 imagens), o modelo pode ficar ruim — tente pelo menos 100+ 
+"""  
+
+

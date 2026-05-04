@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, Blueprint
+from flask import request, jsonify, Blueprint
 from utils.generator_utils import generate_dataset 
 from services.train_service import treinar_modelo
 
@@ -22,8 +22,8 @@ def train():
     with open("data/output/data.yaml", "w") as f:
         f.write("""
 path: data/output
-train: images
-val: images
+train: images/train
+val: images/val
 names:
   0: objeto
 """)
